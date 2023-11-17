@@ -3,6 +3,7 @@ import { RxHeroDocument } from 'src/types/hero';
 import { defineStore } from 'pinia';
 import { Subscription } from 'rxjs';
 import { useHeroesApi } from 'src/boot/feathers';
+import { useDatabase } from 'src/composables/database';
 
 export type HeroEditStore = ReturnType<typeof useHeroEditStore>;
 export const useHeroEditStore = defineStore('hero-edit', () => {
@@ -11,7 +12,8 @@ export const useHeroEditStore = defineStore('hero-edit', () => {
   const deleted = ref(false);
   const synced = ref(true);
   const api = useHeroesApi();
-
+  const database = useDatabase();
+  
   let subscription: Subscription;
 
   async function fetch(this: HeroEditStore, id: string) {
@@ -22,7 +24,7 @@ export const useHeroEditStore = defineStore('hero-edit', () => {
     }
 
     if (process.env.CLIENT) {
-      const data = await this.database.heroes.findOne(id).exec();
+      const data = await database.heroes.findOne(id).exec();
       hero.value = data as RxHeroDocument;
       hp.value = hero.value.hp;
 

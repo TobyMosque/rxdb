@@ -5,13 +5,15 @@ import { QTableColumn } from 'quasar';
 import { defineStore } from 'pinia';
 import { Subscription } from 'rxjs';
 import { useHeroesApi } from 'src/boot/feathers';
+import { useDatabase } from 'src/composables/database';
 
 export type HeroListStore = ReturnType<typeof useHeroListStore>;
 export const useHeroListStore = defineStore('hero-list', () => {
   const loading = ref(false);
   const heroes = ref<RxHeroDocument[]>();
   const api = useHeroesApi();
-
+  const database = useDatabase();
+  
   const columns = computed(
     () =>
       [
@@ -55,7 +57,7 @@ export const useHeroListStore = defineStore('hero-list', () => {
     }
 
     if (process.env.CLIENT) {
-      const query = this.database.heroes.find({
+      const query = database.heroes.find({
         selector: {},
         sort: [{ name: 'asc' }],
       });
