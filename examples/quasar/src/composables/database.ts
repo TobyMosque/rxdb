@@ -10,10 +10,13 @@ declare module 'pinia' {
 
 export async function createDatabase(pinia: Pinia) {
   const database = await baseCreate();
-  pinia.use(() => ({ database }));
+  pinia.use(() => ({
+    database
+  }));
 }
 
 export function useDatabase(pinia?: Pinia) {
+  console.log('useDatabase')
   const di = useDiStore(pinia);
   return di.database;
 }

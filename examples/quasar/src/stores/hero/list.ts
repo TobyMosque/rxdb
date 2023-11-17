@@ -4,7 +4,7 @@ import { tap } from 'rxjs/operators';
 import { QTableColumn } from 'quasar';
 import { defineStore } from 'pinia';
 import { Subscription } from 'rxjs';
-import { useHeroesApi } from 'src/boot/feathers';
+import { useHeroesApi } from 'src/composables/api';
 import { useDatabase } from 'src/composables/database';
 
 export type HeroListStore = ReturnType<typeof useHeroListStore>;

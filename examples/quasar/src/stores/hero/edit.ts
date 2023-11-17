@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import { RxHeroDocument } from 'src/types/hero';
 import { defineStore } from 'pinia';
 import { Subscription } from 'rxjs';
-import { useHeroesApi } from 'src/boot/feathers';
+import { useHeroesApi } from 'src/composables/api';
 import { useDatabase } from 'src/composables/database';
 
 export type HeroEditStore = ReturnType<typeof useHeroEditStore>;

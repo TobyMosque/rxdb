@@ -2,10 +2,10 @@ import { boot } from 'quasar/wrappers';
 import { feathers } from '@feathersjs/feathers';
 import rest from '@feathersjs/rest-client';
 import axios from 'axios';
-import { configureApp } from '.';
-import type { ServiceTypes } from 'app/src-ssr/api/index';
+import { createApi } from 'src/composables/api';
+import type { ServiceTypes } from '../../../src-ssr/api';
 
-export default boot(async (ctx) => {
+export default boot(async ({ store }) => {
   const apiClient = axios.create({ baseURL: '/' });
   const restClient = rest();
   const services = restClient.axios(apiClient);
@@ -13,5 +13,5 @@ export default boot(async (ctx) => {
   const api = feathers<ServiceTypes>();
   api.configure(services);
 
-  configureApp(ctx, api);
+  createApi(store, api);
 });

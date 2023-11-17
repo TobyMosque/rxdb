@@ -1,16 +1,11 @@
 import { boot } from 'quasar/wrappers';
 import { syncHeroes } from 'src/database';
-import { App, InjectionKey } from 'vue';
-import { databaseKey } from './database';
-import { heroesApiKey } from './feathers';
+import { useDatabase } from 'src/composables/database';
+import { useHeroesApi } from 'src/composables/api';
 
-function inject<T>(key: InjectionKey<T>, app: App<unknown>): T {
-  return app._context.provides[key as never] as T;
-}
-
-export default boot(async ({ app }) => {
-  const heroesApi = inject(heroesApiKey, app);
-  const database = inject(databaseKey, app);
+export default boot(async ({ store }) => {
+  const heroesApi = useHeroesApi(store);
+  const database = useDatabase(store);
 
   syncHeroes(database, heroesApi);
 });
