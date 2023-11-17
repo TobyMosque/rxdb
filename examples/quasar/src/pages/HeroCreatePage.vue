@@ -53,6 +53,7 @@ import { useRouter } from 'vue-router';
 import { useHeroCreateStore } from 'src/stores/hero/create';
 import RxInput from 'src/components/RxInput.vue';
 import RxColorInput from 'src/components/RxColorInput.vue';
+import { getValidationErrors } from 'src/composables/database';
 
 const heroStore = useHeroCreateStore();
 const { hero } = storeToRefs(heroStore);
@@ -80,7 +81,9 @@ async function onFormSubmit() {
     await heroStore.save();
     quasar.notify({ message: 'Hero Created', color: 'positive' });
     onHide();
-  } catch {
+  } catch (err) {
+    const errors = getValidationErrors(err);
+    console.log(errors);
     quasar.notify({ message: 'Something is wrong', color: 'negative' });
   }
 }

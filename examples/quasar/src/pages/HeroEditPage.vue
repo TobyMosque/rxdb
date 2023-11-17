@@ -83,6 +83,7 @@ import { useRouter } from 'vue-router';
 import RxInput from 'src/components/RxInput.vue';
 import RxColorInput from 'src/components/RxColorInput.vue';
 import { useHeroEditStore } from 'src/stores/hero/edit';
+import { getValidationErrors } from 'src/composables/database';
 
 const heroStore = useHeroEditStore();
 const { hero, hp, deleted, synced } = storeToRefs(heroStore);
@@ -118,6 +119,8 @@ async function onFormSubmit() {
     await save();
     onHide();
   } catch (err) {
+    const errors = getValidationErrors(err);
+    console.log(errors);
     quasar.notify({ message: 'Something is wrong', color: 'negative' });
   }
 }

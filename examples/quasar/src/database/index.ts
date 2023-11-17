@@ -15,7 +15,6 @@ import {
 } from 'src/types/hero';
 import { RxHeroSchema } from 'src/schemas/hero';
 import { HeroesService, Hero, HeroQuery } from 'app/src-ssr/api/heroes';
-import { RxDatabase } from 'src/boot/database';
 import { FeathersService } from '@feathersjs/feathers/lib';
 import { FeathersApp } from 'app/src-ssr/api';
 
@@ -70,7 +69,7 @@ export async function createDatabase() {
 }
 
 export async function syncHeroes(
-  db: RxDatabase,
+  db: Database,
   heroesApi: FeathersService<FeathersApp, HeroesService>
 ) {
   const replicationState = await replicateRxCollection({
@@ -135,7 +134,6 @@ export async function syncHeroes(
         const { data } = await heroesApi.find({
           query,
         });
-        console.log(data);
 
         // await db.collections.heroes.bulkUpsert(data);
         const res = {

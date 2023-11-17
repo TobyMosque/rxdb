@@ -1,4 +1,5 @@
 import { Pinia } from 'pinia';
+import { RxError } from 'rxdb';
 import { createDatabase as baseCreate, Database } from 'src/database';
 import { useDiStore } from 'src/stores/di';
 
@@ -19,4 +20,14 @@ export function useDatabase(pinia?: Pinia) {
   console.log('useDatabase')
   const di = useDiStore(pinia);
   return di.database;
+}
+
+export function getValidationErrors(err: unknown) {
+  if (err && typeof err === 'object' && 'parameters' in err) {
+    const rxError = err as never as RxError
+    if (rxError.parameters.writeError && 'validationErrors' in rxError.parameters.writeError) {
+      return rxError.parameters.writeError.validationErrors
+    }
+  }
+  return []
 }
